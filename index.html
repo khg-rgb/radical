@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>전남대 화학과 라디칼 | 풋살 팀 밸런서</title>
+  <style>
+    :root {
+      --bg: #06131b;
+      --bg-soft: #0e202b;
+      --panel: rgba(7, 21, 30, 0.82);
+      --panel-strong: rgba(5, 16, 23, 0.92);
+      --text: #edf7f2;
+      --muted: #9eb5b0;
+      --mint: #63f1c9;
+      --lime: #d9ff72;
+      --danger: #ff6f7e;
+      --warning: #ffd66b;
+      --success: #8effbe;
+      --shadow: 0 22px 50px rgba(0, 0, 0, 0.32);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Pretendard Variable", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(95, 241, 201, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(217, 255, 114, 0.14), transparent 22%),
+        linear-gradient(160deg, #06131b 0%, #0b1f2a 38%, #102736 100%);
+      color: var(--text);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+      mask-image: radial-gradient(circle at center, black 45%, transparent 95%);
+      pointer-events: none;
+      opacity: 0.3;
+    }
+
+    button,
+    input,
+    select { font: inherit; }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    input,
+    select {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 13px 15px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    input::placeholder { color: rgba(237, 247, 242, 0.42); }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(99, 241, 201, 0.55);
+      box-shadow: 0 0 0 4px rgba(99, 241, 201, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    select option { color: #08131b; }
+
+    .container {
+      width: min(1380px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
+      padding: 34px;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99, 241, 201, 0.2), transparent 24%),
+        radial-gradient(circle at 85% 18%, rgba(217, 255, 114, 0.18), transparent 18%),
+        linear-gradient(145deg, rgba(9, 30, 43, 0.96), rgba(6, 18, 26, 0.94));
+      border: 1px solid rgba(173, 255, 228, 0.18);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(10px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero::before {
+      width: 280px;
+      height: 280px;
+      right: -80px;
+      top: -90px;
+      background: rgba(99, 241, 201, 0.16);
+    }
+
+    .hero::after {
+      width: 220px;
+      height: 220px;
+      left: -60px;
+      bottom: -100px;
+      background: rgba(217, 255, 114, 0.12);
+    }
+
+    .hero-topline {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(217, 255, 114, 0.24);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--lime);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+      gap: 30px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .hero-copy h1 {
+      margin: 14px 0 12px;
+      font-size: clamp(38px, 6vw, 66px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy p {
+      margin: 0;
+      color: #d1e4de;
+      font-size: 16px;
+      line-height: 1.75;
+      max-width: 760px;
+    }
+
+    .hero-subtitle {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--mint);
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .hero-tags,
+    .controls,
+    .selection-actions,
+    .result-toolbar,
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero-tags { margin-top: 22px; }
+    .hero-actions { margin-top: 26px; gap: 12px; }
+
+    .hero-tag,
+    .section-tag,
+    .status-badge,
+    .pill,
+    .score-pill,
+    .excluded-pill,
+    .team-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .hero-tag {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #f5fbf7;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat-card {
+      padding: 18px 18px 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(237, 247, 242, 0.56);
+      margin-bottom: 10px;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 30px;
+      letter-spacing: -0.04em;
+      margin-bottom: 4px;
+    }
+
+    .stat-card small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .brand-crest {
+      position: relative;
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+    }
+
+    .crest-shell {
+      position: relative;
+      width: min(100%, 330px);
+      aspect-ratio: 1 / 1;
+      border-radius: 32px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+        radial-gradient(circle at 50% 48%, rgba(99, 241, 201, 0.18), transparent 48%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 26px 50px rgba(0, 0, 0, 0.24);
+      overflow: hidden;
+    }
+
+    .crest-shell::before {
+      content: "";
+      position: absolute;
+      inset: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(217, 255, 114, 0.25);
+      box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.02);
+    }
+
+    .crest-shell::after {
+      content: "";
+      position: absolute;
+      inset: 12%;
+      clip-path: polygon(50% 2%, 89% 24%, 89% 76%, 50% 98%, 11% 76%, 11% 24%);
+      border: 1px solid rgba(99, 241, 201, 0.22);
+      background: linear-gradient(180deg, rgba(10, 31, 44, 0.6), rgba(5, 16, 23, 0.2));
+    }
+
+    .crest-core {
+      position: relative;
+      z-index: 1;
+      width: 62%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+      text-align: center;
+      background: radial-gradient(circle, rgba(11, 40, 50, 0.95), rgba(5, 16, 23, 0.96));
+      border: 1px solid rgba(99, 241, 201, 0.35);
+      box-shadow: 0 0 34px rgba(99, 241, 201, 0.12);
+    }
+
+    .crest-core span {
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(237, 247, 242, 0.55);
+    }
+
+    .crest-core strong {
+      font-size: clamp(28px, 5vw, 40px);
+      letter-spacing: -0.08em;
+      line-height: 0.92;
+      color: white;
+    }
+
+    .crest-core b {
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--lime);
+    }
+
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .orbit-a { width: 74%; height: 28%; transform: rotate(20deg); }
+    .orbit-b { width: 74%; height: 28%; transform: rotate(-24deg); }
+    .orbit-c { width: 28%; height: 74%; transform: rotate(14deg); }
+
+    .atom {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, white, var(--lime));
+      box-shadow: 0 0 0 6px rgba(217, 255, 114, 0.12);
+    }
+
+    .atom-a { top: 24%; right: 19%; }
+    .atom-b {
+      bottom: 21%;
+      left: 16%;
+      background: radial-gradient(circle at 30% 30%, white, var(--mint));
+      box-shadow: 0 0 0 6px rgba(99, 241, 201, 0.12);
+    }
+
+    .atom-c { top: 50%; left: 12%; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .stack { display: grid; gap: 20px; }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, var(--panel) 0%, rgba(5, 16, 23, 0.92) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 24%);
+      pointer-events: none;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .card-head h2 {
+      margin: 4px 0 8px;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .section-kicker {
+      color: var(--mint);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .section-desc,
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .section-desc { margin: 0; font-size: 14px; }
+
+    .section-tag {
+      border: 1px solid rgba(217, 255, 114, 0.2);
+      background: rgba(217, 255, 114, 0.08);
+      color: var(--lime);
+    }
+
+    .status-badge {
+      border: 1px solid rgba(99, 241, 201, 0.22);
+      background: rgba(99, 241, 201, 0.08);
+      color: var(--mint);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #f4faf6;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--mint) 0%, #56eac0 45%, #a9ffbe 100%);
+      color: #06212a;
+      box-shadow: 0 14px 24px rgba(99, 241, 201, 0.18);
+    }
+
+    .secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: #ecf8f2;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .danger {
+      background: rgba(255, 111, 126, 0.12);
+      color: #ffd8dc;
+      border: 1px solid rgba(255, 111, 126, 0.3);
+    }
+
+    .success {
+      background: rgba(142, 255, 190, 0.14);
+      color: var(--success);
+      border: 1px solid rgba(142, 255, 190, 0.3);
+    }
+
+    .ghost-button {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .inline-group {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .hint-box,
+    .selection-box,
+    .entry-list,
+    .summary,
+    .move-panel,
+    .team-name-box,
+    .group-card {
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+    }
+
+    .hint-box {
+      margin-top: 8px;
+      padding: 14px 16px;
+      color: #d3e5df;
+      line-height: 1.7;
+    }
+
+    .entry-row {
+      display: grid;
+      grid-template-columns: 1.5fr 0.85fr auto auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 12px;
+    }
+
+    .entry-list {
+      max-height: 310px;
+      overflow: auto;
+      padding: 12px;
+    }
+
+    .entry-item,
+    .selection-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 14px;
+      border-radius: 18px;
+      background: rgba(6, 24, 33, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .entry-item + .entry-item,
+    .selection-item + .selection-item { margin-top: 10px; }
+
+    .entry-player,
+    .selection-player {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .player-avatar {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(99, 241, 201, 0.18), rgba(217, 255, 114, 0.14));
+      color: white;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .player-meta strong,
+    .selection-player strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .player-meta small,
+    .selection-player small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .entry-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .mini-btn {
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 12px;
+      border-radius: 999px;
+    }
+
+    .group-table,
+    .selection-list,
+    .team-grid,
+    .team-name-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .group-table { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .selection-list { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 14px; }
+    .team-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .team-name-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 18px; }
+
+    .group-card,
+    .team-name-box,
+    .selection-box,
+    .summary,
+    .move-panel { padding: 16px; }
+
+    .group-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .group-top h4 { margin: 0; font-size: 18px; letter-spacing: -0.03em; }
+
+    .group-add {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .group-members { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .member-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 6px 8px 6px 12px;
+      border-radius: 999px;
+      background: rgba(6, 24, 33, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+    }
+
+    .chip-x {
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: #ff9ba5;
+      font-size: 16px;
+      line-height: 1;
+      box-shadow: none;
+    }
+
+    .selection-item.active {
+      background: rgba(99, 241, 201, 0.09);
+      border-color: rgba(99, 241, 201, 0.2);
+      box-shadow: 0 14px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    .pill {
+      background: rgba(99, 241, 201, 0.12);
+      color: var(--mint);
+      border: 1px solid rgba(99, 241, 201, 0.22);
+    }
+
+    .score-pill {
+      background: rgba(217, 255, 114, 0.12);
+      color: var(--lime);
+      border: 1px solid rgba(217, 255, 114, 0.24);
+    }
+
+    .excluded-pill {
+      background: rgba(255, 214, 107, 0.14);
+      color: var(--warning);
+      border: 1px solid rgba(255, 214, 107, 0.22);
+      min-height: 28px;
+      padding: 0 10px;
+    }
+
+    .save-status {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .summary { margin-bottom: 16px; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .summary-stat {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(6, 24, 33, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .summary-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .summary-stat strong {
+      display: block;
+      font-size: 26px;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .summary-stat small,
+    .summary-note { color: #d7e7e1; font-size: 13px; line-height: 1.7; }
+
+    .summary-note {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+    }
+
+    .summary-empty { padding: 10px 4px; }
+    .summary-empty strong { display: block; font-size: 22px; margin-bottom: 6px; letter-spacing: -0.03em; }
+
+    .move-panel { display: none; margin-bottom: 14px; }
+    .move-panel.show { display: block; }
+
+    .move-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr auto;
+      gap: 12px;
+      align-items: end;
+      margin-top: 12px;
+    }
+
+    .team {
+      padding: 18px;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(10, 31, 44, 0.88), rgba(6, 20, 28, 0.94)),
+        radial-gradient(circle at top right, rgba(99, 241, 201, 0.09), transparent 40%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .team:hover {
+      transform: translateY(-2px);
+      border-color: rgba(99, 241, 201, 0.16);
+    }
+
+    .team.drag-target {
+      border-color: rgba(99, 241, 201, 0.45);
+      box-shadow: 0 0 0 4px rgba(99, 241, 201, 0.14), 0 18px 36px rgba(0, 0, 0, 0.22);
+      background:
+        linear-gradient(180deg, rgba(10, 31, 44, 0.94), rgba(6, 20, 28, 0.98)),
+        radial-gradient(circle at top right, rgba(99, 241, 201, 0.2), transparent 48%);
+    }
+
+    .team-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .team-head h3 {
+      margin: 6px 0 0;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .team-flag {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .team-scoreboard {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .team-points { padding: 0 14px; min-height: 34px; font-size: 13px; }
+    .team-roster-count { color: var(--muted); font-size: 13px; }
+
+    .team-data {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .team-data-item {
+      padding: 12px 13px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .team-data-item span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .team-data-item strong { font-size: 15px; line-height: 1.5; }
+
+    .team-member-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .team-member-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .team-member-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .player-index {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #f7fffc;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .movable-player {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      cursor: grab;
+      user-select: none;
+      border-radius: 10px;
+      padding: 4px 6px;
+      transition: background 0.15s ease, opacity 0.15s ease;
+    }
+
+    .movable-player:hover { background: rgba(99, 241, 201, 0.08); }
+    .movable-player.dragging { opacity: 0.42; cursor: grabbing; }
+
+    .member-detail { min-width: 0; }
+    .member-detail strong { display: block; font-size: 15px; letter-spacing: -0.02em; }
+    .member-detail small { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    .empty { color: rgba(237, 247, 242, 0.46); font-size: 14px; }
+
+    @media (max-width: 1180px) {
+      .hero-grid,
+      .grid { grid-template-columns: 1fr; }
+
+      .brand-crest { min-height: 280px; }
+      .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 900px) {
+      .entry-row,
+      .group-add,
+      .move-row,
+      .inline-group { grid-template-columns: 1fr; }
+
+      .card-head,
+      .team-head { flex-direction: column; }
+
+      .team-scoreboard { align-items: flex-start; }
+    }
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100% - 20px, 100%);
+        padding-top: 18px;
+      }
+
+      .hero,
+      .card {
+        padding: 20px;
+        border-radius: 26px;
+      }
+
+      .hero-stats { grid-template-columns: 1fr; }
+
+      .hero-actions,
+      .controls,
+      .selection-actions,
+      .result-toolbar {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .team-data,
+      .summary-grid,
+      .selection-list,
+      .group-table,
+      .team-grid,
+      .team-name-grid { grid-template-columns: 1fr; }
+
+      .entry-item,
+      .selection-item,
+      .team-member-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .entry-actions,
+      .selection-item button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-topline">Chonnam National University · Department of Chemistry</div>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="hero-subtitle">Chemistry / Radical / Futsal Club</span>
+          <h1>전남대 화학과 라디칼</h1>
+          <p>
+            점수 밸런스를 유지하면서도 경기마다 유동적으로 팀을 구성할 수 있는
+            라디칼 전용 풋살 팀 배정 보드입니다. 전체 명단 관리부터 참여 체크,
+            팀 생성, 수동 재배치까지 한 화면에서 빠르게 정리할 수 있습니다.
+          </p>
+          <div class="hero-tags">
+            <span class="hero-tag">Radical Matchday Board</span>
+            <span class="hero-tag">Score Balanced Randomizer</span>
+            <span class="hero-tag">No External Assets</span>
+          </div>
+          <div class="hero-actions">
+            <button class="primary" onclick="generateTeams()">바로 팀 나누기</button>
+            <button class="secondary" onclick="fillAllSample()">라디칼 예시 불러오기</button>
+            <button class="ghost-button" onclick="saveAppState(true)">현재 상태 저장</button>
+          </div>
+        </div>
+
+        <div class="brand-crest" aria-hidden="true">
+          <div class="crest-shell">
+            <div class="orbit orbit-a"></div>
+            <div class="orbit orbit-b"></div>
+            <div class="orbit orbit-c"></div>
+            <span class="atom atom-a"></span>
+            <span class="atom atom-b"></span>
+            <span class="atom atom-c"></span>
+            <div class="crest-core">
+              <span>CNU CHEMISTRY</span>
+              <strong>RADICAL</strong>
+              <b>FUTSAL</b>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span>등록 인원</span>
+          <strong id="statRegistered">0명</strong>
+          <small>전체 로스터에 등록된 선수</small>
+        </div>
+        <div class="stat-card">
+          <span>선택 인원</span>
+          <strong id="statSelected">0명</strong>
+          <small>이번 경기 팀 배정 대상</small>
+        </div>
+        <div class="stat-card">
+          <span>팀 수</span>
+          <strong id="statTeams">2팀</strong>
+          <small>현재 설정된 스쿼드 수</small>
+        </div>
+        <div class="stat-card">
+          <span>최대 점수차</span>
+          <strong id="statGap">대기</strong>
+          <small>최근 생성 결과 기준</small>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="stack">
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <div class="section-kicker">Roster Builder</div>
+              <h2>참여자 등록</h2>
+              <p class="section-desc">라디칼 전체 명단을 등록하고 경기마다 필요한 멤버를 빠르게 구성합니다.</p>
+            </div>
+            <span class="section-tag">Lineup Base</span>
+          </div>
+
+          <div class="entry-row">
+            <div>
+              <label for="playerName">이름</label>
+              <input id="playerName" type="text" placeholder="예: 김민수" />
+            </div>
+            <div>
+              <label for="playerScore">점수</label>
+              <input id="playerScore" type="number" placeholder="예: 5" />
+            </div>
+            <button class="primary" onclick="addPlayer()">선수 추가</button>
+            <button class="secondary" onclick="addSamplePlayers()">예시 로스터</button>
+          </div>
+
+          <div class="hint-box small">
+            여기서 전체 명단을 만들어 두면, 아래 점수별 분류표에서 경기 참여 여부만 켜고 끄면서
+            유동적으로 팀을 나눌 수 있습니다.
+          </div>
+
+          <div class="card-head" style="margin-top: 18px; margin-bottom: 12px;">
+            <div>
+              <label style="margin:0;">전체 등록 명단</label>
+              <p class="section-desc">등록된 선수는 수정, 삭제, 점수 확인이 가능합니다.</p>
+            </div>
+            <button class="danger mini-btn" onclick="clearPlayersOnly()">전체 삭제</button>
+          </div>
+          <div id="entryList" class="entry-list"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <div class="section-kicker">Score Pools</div>
+              <h2>점수별 사람 분류표</h2>
+              <p class="section-desc">점수 카드에서 바로 선수 추가와 참여 토글을 진행할 수 있습니다.</p>
+            </div>
+            <span class="status-badge">참여 토글 가능</span>
+          </div>
+
+          <div class="hint-box small" style="margin-bottom: 14px;">
+            각 점수 카드에서 <b>이름 추가</b>가 가능하고, 현재 경기 참여자는 <b>참여</b> 버튼으로 켤 수 있습니다.
+          </div>
+          <div id="scoreGroups" class="group-table"></div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <div class="section-kicker">Matchday Selection</div>
+              <h2>이번 경기 참여 인원</h2>
+              <p class="section-desc">선택된 선수만 팀 배정 대상으로 반영됩니다.</p>
+            </div>
+            <span class="section-tag">Ready To Draft</span>
+          </div>
+
+          <div class="selection-box">
+            <div class="small">선택된 인원은 오른쪽 결과 보드에서 바로 팀 배정 대상으로 사용됩니다.</div>
+            <div class="selection-actions" style="margin-top: 12px;">
+              <button class="secondary mini-btn" onclick="selectAllPlayers()">전체 참여</button>
+              <button class="secondary mini-btn" onclick="clearSelectedPlayers()">전체 해제</button>
+            </div>
+            <div id="selectedPlayers" class="selection-list"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <div class="section-kicker">Squad Setup</div>
+              <h2>팀 설정</h2>
+              <p class="section-desc">팀 수와 팀 이름을 정하고 저장 상태를 함께 관리합니다.</p>
+            </div>
+            <span class="section-tag">Saved Locally</span>
+          </div>
+
+          <div class="inline-group">
+            <label for="teamCount">팀 개수</label>
+            <select id="teamCount">
+              <option value="2">2팀</option>
+              <option value="3">3팀</option>
+              <option value="4">4팀</option>
+              <option value="5">5팀</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label>팀 이름 설정</label>
+          </div>
+          <div id="teamNameInputs" class="team-name-grid"></div>
+
+          <div class="controls">
+            <button class="primary" onclick="generateTeams()">팀 나누기</button>
+            <button class="secondary" onclick="fillAllSample()">전체 예시 채우기</button>
+            <button class="secondary" onclick="saveAppState(true)">지금 저장</button>
+            <button class="danger" onclick="clearAllInputs()">전체 초기화</button>
+          </div>
+          <div id="saveStatus" class="save-status">브라우저에 자동 저장됩니다.</div>
+
+          <p class="small" style="margin-top: 14px;">
+            기본 배정은 총점 균형 기준이며, 남는 인원은 최저 점수부터 골라 총점 계산에서 제외한 뒤
+            인원 수가 적은 팀부터 따로 넣습니다.
+          </p>
+        </section>
+      </div>
+
+      <div class="stack">
+        <section class="card">
+          <div class="card-head">
+            <div>
+              <div class="section-kicker">Result Board</div>
+              <h2>팀 배정 결과</h2>
+              <p class="section-desc">경기 보드처럼 결과를 보고, 필요하면 바로 수동 재배치할 수 있습니다.</p>
+            </div>
+            <span class="status-badge">Drag & Drop</span>
+          </div>
+
+          <div class="result-toolbar">
+            <button class="secondary mini-btn" onclick="toggleMovePanel()">사람 이동하기</button>
+            <button class="secondary mini-btn" onclick="refreshTeamSummaryOnly()">결과 다시 계산</button>
+          </div>
+          <div id="movePanel" class="move-panel">
+            <div class="small">
+              드래그해서 다른 팀 카드로 옮기거나, 아래에서 사람과 이동할 팀을 선택해 수동으로 라인업을 조정할 수 있습니다.
+            </div>
+            <div class="move-row">
+              <div>
+                <label for="movePlayerSelect">이동할 사람</label>
+                <select id="movePlayerSelect"></select>
+              </div>
+              <div>
+                <label for="moveTargetTeam">이동할 팀</label>
+                <select id="moveTargetTeam"></select>
+              </div>
+              <button class="primary" onclick="moveSelectedPlayerByControls()">이동</button>
+            </div>
+          </div>
+          <div id="resultSummary" class="summary"></div>
+          <div id="teams" class="team-grid"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let playersData = [];
+    let editingIndex = -1;
+    let selectedPlayerIds = [];
+    let nextPlayerId = 1;
+    let latestTeams = [];
+    let dragPlayerId = null;
+    const STORAGE_KEY = 'futsal_team_balancer_state_v1';
+    const EMPTY_RESULT_MESSAGE = '아직 팀이 생성되지 않았습니다.';
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function createPlayer(name, score) {
+      return { id: nextPlayerId++, name, score };
+    }
+
+    function getInitials(name) {
+      return Array.from(String(name).trim()).slice(-2).join('').toUpperCase();
+    }
+
+    function updateSaveStatus(message) {
+      const el = document.getElementById('saveStatus');
+      if (el) el.textContent = message;
+    }
+
+    function updateHeroStats() {
+      const teamCount = parseInt(document.getElementById('teamCount').value, 10) || 2;
+      const registeredEl = document.getElementById('statRegistered');
+      const selectedEl = document.getElementById('statSelected');
+      const teamsEl = document.getElementById('statTeams');
+      const gapEl = document.getElementById('statGap');
+
+      if (registeredEl) registeredEl.textContent = playersData.length + '명';
+      if (selectedEl) selectedEl.textContent = selectedPlayerIds.length + '명';
+      if (teamsEl) teamsEl.textContent = teamCount + '팀';
+
+      if (!gapEl) return;
+
+      if (!latestTeams || latestTeams.length === 0) {
+        gapEl.textContent = '대기';
+        return;
+      }
+
+      latestTeams.forEach(team => calculateTeamTotals(team));
+      const minScore = Math.min(...latestTeams.map(team => team.totalScore));
+      const maxScore = Math.max(...latestTeams.map(team => team.totalScore));
+      gapEl.textContent = (maxScore - minScore) + '점';
+    }
+
+    function buildAppState() {
+      const teamCount = parseInt(document.getElementById('teamCount').value, 10);
+      return {
+        playersData,
+        selectedPlayerIds,
+        nextPlayerId,
+        latestTeams,
+        teamCount,
+        teamNames: getTeamNames(teamCount),
+        movePanelOpen: document.getElementById('movePanel')?.classList.contains('show') || false,
+        savedAt: new Date().toISOString()
+      };
+    }
+
+    function saveAppState(showToast = false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(buildAppState()));
+        const timeText = new Date().toLocaleString('ko-KR');
+        updateSaveStatus((showToast ? '저장 완료 · ' : '자동 저장됨 · ') + timeText);
+      } catch (error) {
+        updateSaveStatus('저장에 실패했습니다. 브라우저 저장 공간을 확인해 주세요.');
+      }
+    }
+
+    function renderEmptyResult(message = EMPTY_RESULT_MESSAGE) {
+      const summaryEl = document.getElementById('resultSummary');
+      const teamsEl = document.getElementById('teams');
+
+      summaryEl.innerHTML =
+        '<div class="summary-empty">' +
+          '<strong>' + escapeHtml(message) + '</strong>' +
+          '<div class="small">참여 인원을 선택한 뒤 팀을 생성하면, 라디칼 경기 보드 형태로 결과가 표시됩니다.</div>' +
+        '</div>';
+      teamsEl.innerHTML = '';
+      refreshMoveControls();
+      updateHeroStats();
+    }
+
+    function loadAppState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          updateSaveStatus('브라우저에 자동 저장됩니다.');
+          renderEmptyResult();
+          return;
+        }
+
+        const state = JSON.parse(raw);
+        playersData = Array.isArray(state.playersData) ? state.playersData : [];
+        selectedPlayerIds = Array.isArray(state.selectedPlayerIds) ? state.selectedPlayerIds : [];
+        nextPlayerId = Number.isFinite(state.nextPlayerId) ? state.nextPlayerId : 1;
+        latestTeams = Array.isArray(state.latestTeams) ? state.latestTeams : [];
+
+        const teamCount = Number.isFinite(state.teamCount) ? String(state.teamCount) : '2';
+        document.getElementById('teamCount').value = teamCount;
+        renderTeamNameInputs();
+
+        if (Array.isArray(state.teamNames)) {
+          state.teamNames.forEach((name, i) => {
+            const input = document.getElementById('teamName' + i);
+            if (input) input.value = name;
+          });
+        }
+
+        refreshAllViews();
+        if (latestTeams.length > 0) {
+          renderTeamsFromLatest();
+        } else {
+          renderEmptyResult();
+        }
+
+        if (state.movePanelOpen) {
+          const panel = document.getElementById('movePanel');
+          if (panel) panel.classList.add('show');
+        }
+
+        const savedAtText = state.savedAt ? new Date(state.savedAt).toLocaleString('ko-KR') : '이전 시점';
+        updateSaveStatus('저장된 데이터를 불러왔습니다 · ' + savedAtText);
+      } catch (error) {
+        updateSaveStatus('저장된 데이터를 불러오지 못했습니다.');
+        renderEmptyResult();
+      }
+    }
+
+    function resetStoredState() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (error) {}
+    }
+
+    function renderTeamNameInputs() {
+      const teamCount = parseInt(document.getElementById('teamCount').value, 10);
+      const container = document.getElementById('teamNameInputs');
+      const currentValues = Array.from(container.querySelectorAll('input')).map(input => input.value);
+      container.innerHTML = '';
+
+      for (let i = 0; i < teamCount; i++) {
+        const box = document.createElement('div');
+        box.className = 'team-name-box';
+        const defaultName = currentValues[i] || ('라디칼 ' + (i + 1) + '팀');
+        box.innerHTML = '<label for="teamName' + i + '">팀 ' + (i + 1) + ' 이름</label>' +
+          '<input id="teamName' + i + '" type="text" value="' + escapeHtml(defaultName) + '" />';
+        container.appendChild(box);
+      }
+
+      updateHeroStats();
+    }
+
+    function getTeamNames(teamCount) {
+      const teamNames = [];
+      for (let i = 0; i < teamCount; i++) {
+        const input = document.getElementById('teamName' + i);
+        const value = input ? input.value.trim() : '';
+        teamNames.push(value || ('라디칼 ' + (i + 1) + '팀'));
+      }
+      return teamNames;
+    }
+
+    function resetEntryInputs() {
+      document.getElementById('playerName').value = '';
+      document.getElementById('playerScore').value = '';
+      editingIndex = -1;
+    }
+
+    function addPlayer() {
+      const name = document.getElementById('playerName').value.trim();
+      const scoreValue = document.getElementById('playerScore').value;
+      const score = Number(scoreValue);
+
+      if (!name) {
+        alert('이름을 입력해 주세요.');
+        return;
+      }
+      if (scoreValue === '' || Number.isNaN(score)) {
+        alert('점수를 숫자로 입력해 주세요.');
+        return;
+      }
+
+      if (editingIndex >= 0) {
+        const oldId = playersData[editingIndex].id;
+        playersData[editingIndex] = { id: oldId, name, score };
+      } else {
+        playersData.push(createPlayer(name, score));
+      }
+
+      resetEntryInputs();
+      refreshAllViews();
+      saveAppState();
+    }
+
+    function addPlayerFromGroup(score) {
+      const input = document.getElementById('groupAddName_' + score);
+      const name = input.value.trim();
+      if (!name) return;
+      playersData.push(createPlayer(name, Number(score)));
+      input.value = '';
+      refreshAllViews();
+      saveAppState();
+    }
+
+    function editPlayer(index) {
+      const player = playersData[index];
+      document.getElementById('playerName').value = player.name;
+      document.getElementById('playerScore').value = player.score;
+      editingIndex = index;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deletePlayer(index) {
+      const removed = playersData[index];
+      playersData.splice(index, 1);
+      selectedPlayerIds = selectedPlayerIds.filter(id => id !== removed.id);
+      if (editingIndex === index) resetEntryInputs();
+      if (editingIndex > index) editingIndex -= 1;
+      latestTeams = [];
+      refreshAllViews();
+      renderEmptyResult();
+      saveAppState();
+    }
+
+    function deletePlayerById(id) {
+      const index = playersData.findIndex(p => p.id === id);
+      if (index >= 0) deletePlayer(index);
+    }
+
+    function togglePlayerSelection(id) {
+      if (selectedPlayerIds.includes(id)) {
+        selectedPlayerIds = selectedPlayerIds.filter(v => v !== id);
+      } else {
+        selectedPlayerIds.push(id);
+      }
+      renderScoreGroups();
+      renderSelectedPlayers();
+      latestTeams = [];
+      renderEmptyResult();
+      saveAppState();
+    }
+
+    function selectAllPlayers() {
+      selectedPlayerIds = playersData.map(p => p.id);
+      renderScoreGroups();
+      renderSelectedPlayers();
+      updateHeroStats();
+      saveAppState();
+    }
+
+    function clearSelectedPlayers() {
+      selectedPlayerIds = [];
+      latestTeams = [];
+      renderScoreGroups();
+      renderSelectedPlayers();
+      renderEmptyResult();
+      saveAppState();
+    }
+
+    function renderPlayers() {
+      const entryList = document.getElementById('entryList');
+      if (playersData.length === 0) {
+        entryList.innerHTML = '<div class="empty">아직 등록된 참여자가 없습니다.</div>';
+        updateHeroStats();
+        return;
+      }
+
+      entryList.innerHTML = playersData.map((player, index) =>
+        '<div class="entry-item">' +
+          '<div class="entry-player">' +
+            '<div class="player-avatar">' + escapeHtml(getInitials(player.name)) + '</div>' +
+            '<div class="player-meta">' +
+              '<strong>' + escapeHtml(player.name) + '</strong>' +
+              '<small>등록 선수 · 점수 기반 밸런싱 대상</small>' +
+            '</div>' +
+          '</div>' +
+          '<div class="entry-actions">' +
+            '<span class="score-pill">' + player.score + '점</span>' +
+            '<button class="secondary mini-btn" onclick="editPlayer(' + index + ')">수정</button>' +
+            '<button class="danger mini-btn" onclick="deletePlayer(' + index + ')">삭제</button>' +
+          '</div>' +
+        '</div>'
+      ).join('');
+
+      updateHeroStats();
+    }
+
+    function groupByScore(players) {
+      const scoreGroups = {};
+      for (const player of players) {
+        const key = String(player.score);
+        if (!scoreGroups[key]) scoreGroups[key] = [];
+        scoreGroups[key].push(player);
+      }
+      return scoreGroups;
+    }
+
+    function renderScoreGroups() {
+      const container = document.getElementById('scoreGroups');
+      if (playersData.length === 0) {
+        container.innerHTML = '<div class="empty">참여자를 등록하면 점수별 분류표가 표시됩니다.</div>';
+        return;
+      }
+
+      const grouped = groupByScore(playersData);
+      const sortedScores = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+
+      container.innerHTML = sortedScores.map(score => {
+        const count = grouped[String(score)].length;
+        const selectedCount = grouped[String(score)].filter(player => selectedPlayerIds.includes(player.id)).length;
+        const members = grouped[String(score)]
+          .slice()
+          .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
+          .map(player => {
+            const selected = selectedPlayerIds.includes(player.id);
+            return '<span class="member-chip">' +
+              '<span>' + escapeHtml(player.name) + '</span>' +
+              '<button class="mini-btn ' + (selected ? 'success' : 'secondary') + '" onclick="togglePlayerSelection(' + player.id + ')">' + (selected ? '참여중' : '참여') + '</button>' +
+              '<button class="chip-x" onclick="deletePlayerById(' + player.id + ')">×</button>' +
+            '</span>';
+          }).join('');
+
+        return '<div class="group-card">' +
+          '<div class="group-top">' +
+            '<h4><span>' + score + '점</span></h4>' +
+            '<div style="display:flex; gap:8px; flex-wrap:wrap;">' +
+              '<span class="pill">' + count + '명 등록</span>' +
+              '<span class="score-pill">' + selectedCount + '명 선택</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="group-add">' +
+            '<input id="groupAddName_' + score + '" type="text" placeholder="' + score + '점 인원 추가" onkeydown="handleGroupAddEnter(event, ' + score + ')" />' +
+            '<button class="primary mini-btn" onclick="addPlayerFromGroup(' + score + ')">추가</button>' +
+          '</div>' +
+          '<div class="group-members">' + (members || '<span class="empty">등록 인원 없음</span>') + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    function renderSelectedPlayers() {
+      const container = document.getElementById('selectedPlayers');
+      const selectedPlayers = playersData.filter(p => selectedPlayerIds.includes(p.id));
+
+      if (selectedPlayers.length === 0) {
+        container.innerHTML = '<div class="empty">아직 선택된 참여 인원이 없습니다.</div>';
+        updateHeroStats();
+        return;
+      }
+
+      selectedPlayers.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.name.localeCompare(b.name, 'ko');
+      });
+
+      container.innerHTML = selectedPlayers.map(player =>
+        '<div class="selection-item active">' +
+          '<div class="selection-player">' +
+            '<div class="player-avatar">' + escapeHtml(getInitials(player.name)) + '</div>' +
+            '<div>' +
+              '<strong>' + escapeHtml(player.name) + '</strong>' +
+              '<small>이번 경기 팀 배정 포함</small>' +
+            '</div>' +
+          '</div>' +
+          '<div class="entry-actions">' +
+            '<span class="score-pill">' + player.score + '점</span>' +
+            '<button class="danger mini-btn" onclick="togglePlayerSelection(' + player.id + ')">해제</button>' +
+          '</div>' +
+        '</div>'
+      ).join('');
+
+      updateHeroStats();
+    }
+
+    function pickExcludedPlayers(players, teamCount) {
+      const remainder = players.length % teamCount;
+      if (remainder === 0) {
+        return { countedPlayers: players.map(p => ({ ...p })), excludedPlayers: [] };
+      }
+
+      const shuffled = players.map(p => ({ ...p }));
+      shuffle(shuffled);
+      shuffled.sort((a, b) => a.score - b.score);
+
+      const excludedPlayers = shuffled.slice(0, remainder).map(p => ({ ...p }));
+      const excludedIds = new Set(excludedPlayers.map(p => p.id));
+      const countedPlayers = players.filter(p => !excludedIds.has(p.id)).map(p => ({ ...p }));
+
+      return { countedPlayers, excludedPlayers };
+    }
+
+    function generateTeams() {
+      const teamCount = parseInt(document.getElementById('teamCount').value, 10);
+      const teamNames = getTeamNames(teamCount);
+      const summaryEl = document.getElementById('resultSummary');
+      const teamsEl = document.getElementById('teams');
+      const selectedPlayers = playersData.filter(p => selectedPlayerIds.includes(p.id));
+
+      if (selectedPlayers.length === 0) {
+        latestTeams = [];
+        summaryEl.innerHTML = '';
+        teamsEl.innerHTML = '';
+        renderEmptyResult('이번 경기 참여 인원을 먼저 선택해 주세요.');
+        saveAppState();
+        return;
+      }
+
+      if (selectedPlayers.length < teamCount) {
+        latestTeams = [];
+        summaryEl.innerHTML = '';
+        teamsEl.innerHTML = '';
+        renderEmptyResult('참여 인원 수(' + selectedPlayers.length + '명)가 팀 수(' + teamCount + '팀)보다 적습니다.');
+        saveAppState();
+        return;
+      }
+
+      const picked = pickExcludedPlayers(selectedPlayers, teamCount);
+      const countedPlayers = picked.countedPlayers;
+      const excludedPlayers = picked.excludedPlayers;
+      const scoreGroups = groupByScore(countedPlayers);
+      Object.keys(scoreGroups).forEach(score => shuffle(scoreGroups[score]));
+
+      const teams = Array.from({ length: teamCount }, (_, i) => ({
+        id: i + 1,
+        name: teamNames[i],
+        players: [],
+        totalScore: 0,
+        excludedCount: 0
+      }));
+
+      const sortedScores = Object.keys(scoreGroups).map(Number).sort((a, b) => b - a);
+      for (const score of sortedScores) {
+        const group = scoreGroups[String(score)];
+        for (const player of group) {
+          teams.sort((t1, t2) => {
+            if (t1.totalScore !== t2.totalScore) return t1.totalScore - t2.totalScore;
+            return t1.players.length - t2.players.length;
+          });
+          teams[0].players.push({ ...player, excludedFromScore: false });
+          teams[0].totalScore += player.score;
+        }
+      }
+
+      const shuffledExcluded = excludedPlayers.map(p => ({ ...p }));
+      shuffle(shuffledExcluded);
+      for (const player of shuffledExcluded) {
+        teams.sort((t1, t2) => {
+          if (t1.players.length !== t2.players.length) return t1.players.length - t2.players.length;
+          return t1.totalScore - t2.totalScore;
+        });
+        teams[0].players.push({ ...player, excludedFromScore: true });
+        teams[0].excludedCount += 1;
+      }
+
+      latestTeams = teams.map(team => ({ ...team, players: team.players.map(player => ({ ...player })) }));
+      renderTeamsFromLatest();
+      saveAppState();
+    }
+
+    function calculateTeamTotals(team) {
+      team.totalScore = team.players.filter(p => !p.excludedFromScore).reduce((sum, p) => sum + p.score, 0);
+      team.excludedCount = team.players.filter(p => p.excludedFromScore).length;
+    }
+
+    function refreshTeamSummaryOnly() {
+      if (!latestTeams || latestTeams.length === 0) {
+        renderEmptyResult();
+        saveAppState();
+        return;
+      }
+
+      renderTeamsFromLatest();
+      saveAppState();
+    }
+
+    function renderTeamsFromLatest() {
+      const summaryEl = document.getElementById('resultSummary');
+      const teamsEl = document.getElementById('teams');
+
+      if (!latestTeams || latestTeams.length === 0) {
+        renderEmptyResult();
+        return;
+      }
+
+      latestTeams.forEach(team => calculateTeamTotals(team));
+
+      const allPlayers = latestTeams.flatMap(team => team.players);
+      const countedPlayers = allPlayers.filter(p => !p.excludedFromScore);
+      const excludedPlayers = allPlayers.filter(p => p.excludedFromScore);
+      const totalPlayers = allPlayers.length;
+      const countedTotal = countedPlayers.reduce((sum, p) => sum + p.score, 0);
+      const avgScore = (countedTotal / latestTeams.length).toFixed(2);
+      const minScore = Math.min(...latestTeams.map(t => t.totalScore));
+      const maxScore = Math.max(...latestTeams.map(t => t.totalScore));
+      const excludedText = excludedPlayers.length > 0
+        ? excludedPlayers.map(p => escapeHtml(p.name) + '(' + p.score + '점)').join(', ')
+        : '없음';
+
+      summaryEl.innerHTML =
+        '<div class="summary-grid">' +
+          '<div class="summary-stat">' +
+            '<span>참여 인원</span>' +
+            '<strong>' + totalPlayers + '명</strong>' +
+            '<small>총점 반영 ' + countedPlayers.length + '명</small>' +
+          '</div>' +
+          '<div class="summary-stat">' +
+            '<span>팀 평균 총점</span>' +
+            '<strong>' + avgScore + '</strong>' +
+            '<small>균형 기준 점수</small>' +
+          '</div>' +
+          '<div class="summary-stat">' +
+            '<span>최고-최저 차이</span>' +
+            '<strong>' + (maxScore - minScore) + '점</strong>' +
+            '<small>점수 편차</small>' +
+          '</div>' +
+          '<div class="summary-stat">' +
+            '<span>제외 인원</span>' +
+            '<strong>' + excludedPlayers.length + '명</strong>' +
+            '<small>최저 점수 우선 제외</small>' +
+          '</div>' +
+        '</div>' +
+        '<div class="summary-note">' +
+          '남는 인원은 <b>최저 점수 기준</b>으로 총점 계산에서 제외한 뒤 별도 배치합니다.<br>' +
+          '제외 인원: <b>' + excludedText + '</b>' +
+        '</div>';
+
+      teamsEl.innerHTML = latestTeams.map((team, teamIndex) => {
+        const scoreCount = {};
+        team.players.forEach(p => {
+          if (!p.excludedFromScore) scoreCount[p.score] = (scoreCount[p.score] || 0) + 1;
+        });
+        const scoreText = Object.entries(scoreCount)
+          .sort((a, b) => Number(b[0]) - Number(a[0]))
+          .map(([score, count]) => score + '점 ' + count + '명')
+          .join(' / ');
+
+        const memberList = team.players.map((p, playerIndex) =>
+          '<li class="team-member-item">' +
+            '<div class="team-member-main">' +
+              '<div class="player-index">' + (playerIndex + 1) + '</div>' +
+              '<span class="movable-player" draggable="true" data-player-id="' + p.id + '" data-from-team="' + teamIndex + '" onclick="selectMovePlayer(' + p.id + ')">' +
+                '<div class="member-detail">' +
+                  '<strong>' + escapeHtml(p.name) + '</strong>' +
+                  '<small>' + p.score + '점 선수 · 클릭 후 이동 패널에서 재배치 가능</small>' +
+                '</div>' +
+              '</span>' +
+            '</div>' +
+            '<div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">' +
+              '<span class="score-pill">' + p.score + '점</span>' +
+              (p.excludedFromScore ? '<span class="excluded-pill">총점 제외</span>' : '') +
+            '</div>' +
+          '</li>'
+        ).join('');
+
+        return '<div class="team" data-team-index="' + teamIndex + '" onclick="quickMoveToTeam(' + teamIndex + ')">' +
+          '<div class="team-head">' +
+            '<div>' +
+              '<span class="team-flag">Team ' + (teamIndex + 1) + '</span>' +
+              '<h3>' + escapeHtml(team.name) + '</h3>' +
+            '</div>' +
+            '<div class="team-scoreboard">' +
+              '<span class="pill team-points">총점 ' + team.totalScore + '</span>' +
+              '<span class="team-roster-count">인원 ' + team.players.length + '명</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="team-data">' +
+            '<div class="team-data-item">' +
+              '<span>총점 반영 구성</span>' +
+              '<strong>' + (scoreText || '-') + '</strong>' +
+            '</div>' +
+            '<div class="team-data-item">' +
+              '<span>총점 제외 인원</span>' +
+              '<strong>' + team.excludedCount + '명</strong>' +
+            '</div>' +
+          '</div>' +
+          '<ul class="team-member-list">' + (memberList || '<li class="empty">배정 인원 없음</li>') + '</ul>' +
+        '</div>';
+      }).join('');
+
+      bindDragAndDrop();
+      refreshMoveControls();
+      updateHeroStats();
+    }
+
+    function bindDragAndDrop() {
+      const players = document.querySelectorAll('.movable-player');
+      const teams = document.querySelectorAll('.team[data-team-index]');
+
+      players.forEach(el => {
+        el.addEventListener('dragstart', function(e) {
+          dragPlayerId = Number(this.dataset.playerId);
+          this.classList.add('dragging');
+          if (e.dataTransfer) {
+            e.dataTransfer.setData('text/plain', String(dragPlayerId));
+            e.dataTransfer.effectAllowed = 'move';
+          }
+        });
+        el.addEventListener('dragend', function() {
+          this.classList.remove('dragging');
+          document.querySelectorAll('.team.drag-target').forEach(t => t.classList.remove('drag-target'));
+        });
+      });
+
+      teams.forEach(teamEl => {
+        teamEl.addEventListener('dragover', function(e) {
+          e.preventDefault();
+          this.classList.add('drag-target');
+        });
+        teamEl.addEventListener('dragleave', function() {
+          this.classList.remove('drag-target');
+        });
+        teamEl.addEventListener('drop', function(e) {
+          e.preventDefault();
+          this.classList.remove('drag-target');
+          const playerId = dragPlayerId || Number(e.dataTransfer?.getData('text/plain'));
+          const targetTeamIndex = Number(this.dataset.teamIndex);
+          if (!Number.isNaN(playerId)) movePlayerToTeam(playerId, targetTeamIndex);
+          dragPlayerId = null;
+        });
+      });
+    }
+
+    function refreshMoveControls() {
+      const playerSelect = document.getElementById('movePlayerSelect');
+      const teamSelect = document.getElementById('moveTargetTeam');
+      if (!playerSelect || !teamSelect) return;
+
+      if (!latestTeams || latestTeams.length === 0) {
+        playerSelect.innerHTML = '<option value="">팀 생성 후 선택 가능</option>';
+        teamSelect.innerHTML = '<option value="">팀 생성 후 선택 가능</option>';
+        return;
+      }
+
+      const options = latestTeams.flatMap(team =>
+        team.players.map(player =>
+          '<option value="' + player.id + '">' + escapeHtml(team.name) + ' - ' + escapeHtml(player.name) + ' (' + player.score + '점' + (player.excludedFromScore ? ', 총점 제외' : '') + ')</option>'
+        )
+      ).join('');
+      playerSelect.innerHTML = options || '<option value="">이동할 사람 없음</option>';
+
+      teamSelect.innerHTML = latestTeams.map((team, teamIndex) =>
+        '<option value="' + teamIndex + '">' + escapeHtml(team.name) + '</option>'
+      ).join('');
+    }
+
+    function movePlayerToTeam(playerId, targetTeamIndex) {
+      if (!latestTeams || latestTeams.length === 0) return;
+      let movedPlayer = null;
+      let sourceTeamIndex = -1;
+
+      latestTeams.forEach((team, idx) => {
+        const foundIndex = team.players.findIndex(p => p.id === playerId);
+        if (foundIndex >= 0) {
+          movedPlayer = team.players.splice(foundIndex, 1)[0];
+          sourceTeamIndex = idx;
+        }
+      });
+
+      if (!movedPlayer) return;
+      if (sourceTeamIndex === targetTeamIndex) {
+        latestTeams[sourceTeamIndex].players.push(movedPlayer);
+        renderTeamsFromLatest();
+        saveAppState();
+        return;
+      }
+
+      latestTeams[targetTeamIndex].players.push(movedPlayer);
+      renderTeamsFromLatest();
+      saveAppState();
+    }
+
+    function moveSelectedPlayerByControls() {
+      const playerId = Number(document.getElementById('movePlayerSelect').value);
+      const targetTeamIndex = Number(document.getElementById('moveTargetTeam').value);
+      if (Number.isNaN(playerId) || Number.isNaN(targetTeamIndex)) return;
+      movePlayerToTeam(playerId, targetTeamIndex);
+    }
+
+    function selectMovePlayer(playerId) {
+      const select = document.getElementById('movePlayerSelect');
+      if (select) select.value = String(playerId);
+    }
+
+    function quickMoveToTeam(teamIndex) {
+      const panel = document.getElementById('movePanel');
+      const playerSelect = document.getElementById('movePlayerSelect');
+      const teamSelect = document.getElementById('moveTargetTeam');
+      if (!panel || !playerSelect || !teamSelect) return;
+      if (!panel.classList.contains('show')) return;
+      if (!playerSelect.value) return;
+      teamSelect.value = String(teamIndex);
+    }
+
+    function toggleMovePanel() {
+      const panel = document.getElementById('movePanel');
+      if (!panel) return;
+      panel.classList.toggle('show');
+      refreshMoveControls();
+      saveAppState();
+    }
+
+    function addSamplePlayers() {
+      nextPlayerId = 1;
+      playersData = [
+        createPlayer('김민수', 5),
+        createPlayer('이영희', 5),
+        createPlayer('박철수', 4),
+        createPlayer('정수빈', 4),
+        createPlayer('최하늘', 4),
+        createPlayer('한지호', 3),
+        createPlayer('윤서진', 3),
+        createPlayer('송지우', 3),
+        createPlayer('강도윤', 2),
+        createPlayer('오민재', 2),
+        createPlayer('배수아', 1),
+        createPlayer('임유진', 1)
+      ];
+      selectedPlayerIds = playersData.map(p => p.id);
+      latestTeams = [];
+      resetEntryInputs();
+      refreshAllViews();
+      renderEmptyResult();
+      saveAppState();
+    }
+
+    function fillAllSample() {
+      document.getElementById('teamCount').value = '3';
+      renderTeamNameInputs();
+      document.getElementById('teamName0').value = '라디칼 네이비';
+      document.getElementById('teamName1').value = '라디칼 민트';
+      document.getElementById('teamName2').value = '라디칼 화이트';
+      addSamplePlayers();
+      generateTeams();
+      saveAppState();
+    }
+
+    function clearPlayersOnly() {
+      playersData = [];
+      selectedPlayerIds = [];
+      latestTeams = [];
+      nextPlayerId = 1;
+      resetEntryInputs();
+      refreshAllViews();
+      renderEmptyResult();
+      saveAppState();
+    }
+
+    function clearAllInputs() {
+      resetStoredState();
+      playersData = [];
+      selectedPlayerIds = [];
+      latestTeams = [];
+      nextPlayerId = 1;
+      resetEntryInputs();
+      document.getElementById('teamCount').value = '2';
+      renderTeamNameInputs();
+      refreshAllViews();
+      renderEmptyResult();
+      updateSaveStatus('저장 데이터가 삭제되었습니다.');
+    }
+
+    function refreshAllViews() {
+      renderPlayers();
+      renderScoreGroups();
+      renderSelectedPlayers();
+      updateHeroStats();
+    }
+
+    function handleGroupAddEnter(event, score) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        addPlayerFromGroup(score);
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    document.getElementById('playerName').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('playerScore').focus();
+      }
+    });
+
+    document.getElementById('playerScore').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addPlayer();
+      }
+    });
+
+    document.getElementById('teamCount').addEventListener('change', function() {
+      renderTeamNameInputs();
+      saveAppState();
+    });
+
+    document.addEventListener('input', function(e) {
+      if (e.target && /^teamName\d+$/.test(e.target.id)) {
+        saveAppState();
+      }
+    });
+
+    renderTeamNameInputs();
+    refreshAllViews();
+    renderEmptyResult();
+    loadAppState();
+  </script>
+</body>
+</html>
